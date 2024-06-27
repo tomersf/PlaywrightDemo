@@ -1,4 +1,3 @@
-using Microsoft.Playwright;
 using PlaywrightDemo.Config;
 using PlaywrightDemo.Driver;
 
@@ -6,13 +5,11 @@ namespace PlaywrightDemo;
 
 public class Tests
 {
+    private PlaywrightDriver _driver;
+    private PlaywrightDriverInitializer _playwrightDriverInitializer;
+    
     [SetUp]
     public void Setup()
-    {
-    }
-
-    [Test]
-    public async Task Test1()
     {
         TestSettings testSettings = new TestSettings
         {
@@ -20,9 +17,21 @@ public class Tests
             DriverType = DriverTypeEnum.Chromium
         };
         
-        PlaywrightDriver driver = new PlaywrightDriver();
-        IPage page = await driver.InitalizePlaywrightAsync(testSettings);
+        _playwrightDriverInitializer = new PlaywrightDriverInitializer();
+        _driver = new PlaywrightDriver(testSettings, _playwrightDriverInitializer);
+    }
 
+    [Test]
+    public async Task Test1()
+    {
+        var page = await _driver.Page;
+        await page.GotoAsync("http://eaapp.somee.com");
         await page.ClickAsync("text=Login");
+    }
+    
+    [TearDown]
+    public async Task TearDown()
+    {
+        await _driver.TearDown();
     }
 }

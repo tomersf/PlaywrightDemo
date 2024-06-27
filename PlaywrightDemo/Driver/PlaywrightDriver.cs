@@ -5,34 +5,51 @@ namespace PlaywrightDemo.Driver;
 
 public class PlaywrightDriver
 {
-    public async Task<IPage> InitalizePlaywrightAsync(TestSettings testSettings)
+    private readonly TestSettings _testSettings;
+    private readonly IPlaywrightDriverInitializer _playwrightDriverInitializer;
+    private readonly AsyncTask<IBrowser> _browser;
+    private readonly AsyncTask<IBrowserContext> _browserContext;
+    private readonly AsyncTask<IPage> _page;
+
+    public Task<IPage> Page => _page.Value;
+    public Task<IBrowser> Browser => _browser.Value;
+    public Task<IBrowserContext> BrowserContext => _browserContext.Value;
+    
+
+    public PlaywrightDriver(TestSettings testSettings, IPlaywrightDriverInitializer playwrightDriverInitializer)
     {
-        var browser = await GetBrowserAsync(testSettings);
-        var browserContext = await browser.NewContextAsync();
-        var page = await browserContext.NewPageAsync();
+        _testSettings = testSettings;
+        _playwrightDriverInitializer = playwrightDriverInitializer;
 
-        await page.GotoAsync("http://eaapp.somee.com");
-
-        return page;
+        _browser = new AsyncTask<IBrowser>(InitializePlaywrightAsync);
+        _browserContext = new AsyncTask<IBrowserContext>(CreateBrowserContext);
+        _page = new AsyncTask<IPage>(CreatePageAsync);
+    }
+    
+    private async Task<IBrowser> InitializePlaywrightAsync()
+    {
+        return _testSettings.DriverType switch
+        {
+            DriverTypeEnum.Chromium => await _playwrightDriverInitializer.GetChromiumDriverAsync(_testSettings),
+            DriverTypeEnum.Firefox => await _playwrightDriverInitializer.GetFirefoxDriverAsync(_testSettings),
+            _ => await _playwrightDriverInitializer.GetChromeDriverAsync(_testSettings)
+        };
     }
 
-    private async Task<IBrowser> GetBrowserAsync(TestSettings testSettings)
+    private async Task<IBrowserContext> CreateBrowserContext()
     {
-        var playwrightDriver = await Playwright.CreateAsync();
-        var browserOptions = new BrowserTypeLaunchOptions
-        {
-            Headless = testSettings.Headless,
-            SlowMo = testSettings.SlowMo,
-            Channel = testSettings.Channel,
-        };
-        
-        return testSettings.DriverType switch
-        {
-            DriverTypeEnum.Chromium => await playwrightDriver.Chromium.LaunchAsync(browserOptions),
-            DriverTypeEnum.Chrome => await playwrightDriver["chrome"].LaunchAsync(browserOptions),
-            DriverTypeEnum.Edge => await playwrightDriver["edge"].LaunchAsync(browserOptions),
-            DriverTypeEnum.Firefox => await playwrightDriver.Firefox.LaunchAsync(browserOptions),
-            _ => await playwrightDriver.Chromium.LaunchAsync(browserOptions)
-        };
+        return await (await _browser).NewContextAsync();
+    }
+
+    private async Task<IPage> CreatePageAsync()
+    {
+        return await (await _browserContext).NewPageAsync();
+    }
+    
+    public async Task TearDown()
+    {
+        var browser = await _browser;
+        await browser.CloseAsync();
+        await browser.DisposeAsync();
     }
 }

@@ -1,26 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/tomershafir/RiderProjects/PlaywrightDemo/PlaywrightDemo/PlaywrightDemo.csproj": {}
+    "C:\\Users\\Tomer.Shafir\\RiderProjects\\csharp-PlaywrightDemo\\PlaywrightDemo\\PlaywrightDemo.csproj": {}
   },
   "projects": {
-    "/Users/tomershafir/RiderProjects/PlaywrightDemo/PlaywrightDemo/PlaywrightDemo.csproj": {
+    "C:\\Users\\Tomer.Shafir\\RiderProjects\\csharp-PlaywrightDemo\\PlaywrightDemo\\PlaywrightDemo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/tomershafir/RiderProjects/PlaywrightDemo/PlaywrightDemo/PlaywrightDemo.csproj",
+        "projectUniqueName": "C:\\Users\\Tomer.Shafir\\RiderProjects\\csharp-PlaywrightDemo\\PlaywrightDemo\\PlaywrightDemo.csproj",
         "projectName": "PlaywrightDemo",
-        "projectPath": "/Users/tomershafir/RiderProjects/PlaywrightDemo/PlaywrightDemo/PlaywrightDemo.csproj",
-        "packagesPath": "/Users/tomershafir/.nuget/packages/",
-        "outputPath": "/Users/tomershafir/RiderProjects/PlaywrightDemo/PlaywrightDemo/obj/",
+        "projectPath": "C:\\Users\\Tomer.Shafir\\RiderProjects\\csharp-PlaywrightDemo\\PlaywrightDemo\\PlaywrightDemo.csproj",
+        "packagesPath": "C:\\Users\\Tomer.Shafir\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Tomer.Shafir\\RiderProjects\\csharp-PlaywrightDemo\\PlaywrightDemo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/tomershafir/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Tomer.Shafir\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "/Users/tomershafir/Documents/projects/csharp/packages": {},
+          "C:\\LocalNuGet": {},
+          "http://192.168.14.19:8081/repository/ng-dev-nuget-group/index.json": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -80,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\Tomer.Shafir\\.dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
